@@ -1,29 +1,40 @@
-package com.eventplanner.user_service.model; // Paket isminizi kendi projenize göre düzeltin!
+package com.eventplanner.user_service.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users") // PostgreSQL'de 'users' tablosu oluşacak
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "users") // Veritabanında 'users' adında tablo oluşacak
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String username;
-
-    @Column(nullable = false)
-    private String password; // İleride şifreli (hashed) saklayacağız
-
-    @Column(unique = true, nullable = false)
     private String email;
+    private String password; // Gerçekte şifreli olmalı, şimdilik düz metin
 
-    private String role; // "USER", "ADMIN" vb.
+    // Boş Constructor (JPA için şart)
+    public User() {
+    }
+
+    // Constructor
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    // Getter ve Setter'lar (IntelliJ'de Generate ile de yapabilirsiniz)
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }

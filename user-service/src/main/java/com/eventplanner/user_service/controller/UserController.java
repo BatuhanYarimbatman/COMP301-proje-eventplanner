@@ -1,9 +1,7 @@
 package com.eventplanner.user_service.controller;
 
 import com.eventplanner.user_service.model.User;
-import com.eventplanner.user_service.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.eventplanner.user_service.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,21 +10,27 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserService userService;
 
-    // 1. Yeni Kullanıcı Kaydet (Register)
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public User registerUser(@RequestBody User user) {
-        // İleride buraya şifreleme (Hashing) eklenecek
-        user.setRole("USER"); // Varsayılan rol
-        return repository.save(user);
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    // 2. Tüm Kullanıcıları Gör (Test amaçlı)
+    // Veri Ekleme (POST)
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
+
+    // Hepsini Getirme (GET)
     @GetMapping
     public List<User> getAllUsers() {
-        return repository.findAll();
+        return userService.getAllUsers();
+    }
+
+    // ID ile Getirme (GET)
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 }

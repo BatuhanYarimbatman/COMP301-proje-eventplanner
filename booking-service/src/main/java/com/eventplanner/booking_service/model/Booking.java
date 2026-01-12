@@ -1,24 +1,49 @@
-package com.eventplanner.booking_service.model; // Paket ismini kontrol edin
+package com.eventplanner.booking_service.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bookings")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;    // Hangi kullanıcı aldı?
-    private String eventId; // Hangi etkinliğe aldı? (MongoDB ID'si String'dir)
+    // İlişkisel veritabanı olsa da mikroserviste nesne değil ID tutarız!
+    private Long userId;
+    private Long eventId;
 
-    private LocalDate bookingDate;
-    private String status; // "CONFIRMED", "CANCELLED"
+    private LocalDateTime bookingDate;
+    private String status; // CONFIRMED, CANCELLED, PENDING
+
+    public Booking() {
+        this.bookingDate = LocalDateTime.now();
+        this.status = "PENDING";
+    }
+
+    public Booking(Long userId, Long eventId) {
+        this.userId = userId;
+        this.eventId = eventId;
+        this.bookingDate = LocalDateTime.now();
+        this.status = "CONFIRMED"; // Şimdilik direkt onaylı yapalım
+    }
+
+    // Getter & Setter
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+
+    public Long getEventId() { return eventId; }
+    public void setEventId(Long eventId) { this.eventId = eventId; }
+
+    public LocalDateTime getBookingDate() { return bookingDate; }
+    public void setBookingDate(LocalDateTime bookingDate) { this.bookingDate = bookingDate; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
