@@ -1,5 +1,5 @@
 services:
-  - - type: web
+  - type: web
   - name: payment-service
   - env: docker
   - dockerfilePath: Dockerfile-payment
