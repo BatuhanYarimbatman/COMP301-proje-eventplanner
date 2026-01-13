@@ -1,17 +1,17 @@
 services:
   - type: web
-  - name: payment-service
-  - env: docker
-  - dockerfilePath: Dockerfile-payment
-  - region: frankfurt
-  - plan: free
-  - envVars:
-  - key: SPRING_PROFILES_ACTIVE
-  - value: production
-  - key: SPRING_CONFIG_IMPORT
-  - value: optional:configserver:http://config-server:8888
+    name: payment-service
+    env: docker
+    dockerfilePath: Dockerfile-payment
+    region: frankfurt
+    plan: free
+    envVars:
+    - key: SPRING_PROFILES_ACTIVE
+      value: production
+    - key: SPRING_CONFIG_IMPORT
+    value: optional:configserver:http://config-server:8888
   - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-  - value: http://discovery-server:8761/eureka/
+    value: http://discovery-server:8761/eureka/
 
   - key: SPRING_DATASOURCE_URL
   - sync: false
