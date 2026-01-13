@@ -5,7 +5,7 @@ services:
   - type: web
     name: config-server
     env: docker
-    dockerfilePath: Dockerfile.config
+    dockerfilePath: Dockerfile-config
     region: frankfurt
     plan: free
     envVars:
@@ -22,7 +22,7 @@ services:
   - type: web
     name: discovery-server
     env: docker
-    dockerfilePath: Dockerfile.discovery
+    dockerfilePath: Dockerfile-discovery
     region: frankfurt
     plan: free
     envVars:
@@ -37,7 +37,7 @@ services:
   - type: web
     name: api-gateway
     env: docker
-    dockerfilePath: Dockerfile.gateway
+    dockerfilePath: Dockerfile-gateway
     region: frankfurt
     plan: free
     envVars:
@@ -78,7 +78,7 @@ services:
   - type: web
     name: event-catalog-service
     env: docker
-    dockerfilePath: Dockerfile.event
+    dockerfilePath: Dockerfile-event
     region: frankfurt
     plan: free
     envVars:
@@ -99,7 +99,7 @@ services:
   - type: web
     name: booking-service
     env: docker
-    dockerfilePath: Dockerfile.booking
+    dockerfilePath: Dockerfile-booking
     region: frankfurt
     plan: free
     envVars:
@@ -120,7 +120,7 @@ services:
   - type: web
     name: payment-service
     env: docker
-    dockerfilePath: Dockerfile.payment
+    dockerfilePath: Dockerfile-payment
     region: frankfurt
     plan: free
     envVars:
