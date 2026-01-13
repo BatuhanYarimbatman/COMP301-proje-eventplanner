@@ -1,9 +1,29 @@
 services:
+  - - type: web
+  - name: payment-service
+  - env: docker
+  - dockerfilePath: Dockerfile-payment
+  - region: frankfurt
+  - plan: free
+  - envVars:
+  - key: SPRING_PROFILES_ACTIVE
+  - value: production
+  - key: SPRING_CONFIG_IMPORT
+  - value: optional:configserver:http://config-server:8888
+  - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+  - value: http://discovery-server:8761/eureka/
+
+  - key: SPRING_DATASOURCE_URL
+  - sync: false
+  - key: SPRING_DATASOURCE_USERNAME
+  - sync: false
+  - key: SPRING_DATASOURCE_PASSWORD
+  - sync: false
 
   - type: web
     name: config-server
     env: docker
-    dockerfilePath: Dockerfile.config
+    dockerfilePath: Dockerfile-config
     region: frankfurt
     plan: free
     envVars:
@@ -20,7 +40,7 @@ services:
   - type: web
     name: discovery-server
     env: docker
-    dockerfilePath: Dockerfile.discovery
+    dockerfilePath: Dockerfile-discovery
     region: frankfurt
     plan: free
     envVars:
@@ -53,7 +73,7 @@ services:
   - type: web
     name: event-catalog-service
     env: docker
-    dockerfilePath: Dockerfile.event
+    dockerfilePath: Dockerfile-event
     region: frankfurt
     plan: free
     envVars:
@@ -73,7 +93,7 @@ services:
   - type: web
     name: booking-service
     env: docker
-    dockerfilePath: Dockerfile.booking
+    dockerfilePath: Dockerfile-booking
     region: frankfurt
     plan: free
     envVars:
@@ -94,7 +114,7 @@ services:
   - type: web
     name: api-gateway
     env: docker
-    dockerfilePath: Dockerfile.gateway
+    dockerfilePath: Dockerfile-gateway
     region: frankfurt
     plan: free
     envVars:
@@ -104,3 +124,8 @@ services:
         value: optional:configserver:http://config-server:8888
       - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
         value: http://discovery-server:8761/eureka/
+
+
+
+
+
