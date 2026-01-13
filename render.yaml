@@ -1,38 +1,20 @@
 services:
-  - type: web
-    name: payment-service
-    env: docker
-    dockerfilePath: Dockerfile-payment
-    region: frankfurt
-    plan: free
-    envVars:
-    - key: SPRING_PROFILES_ACTIVE
-      value: production
-    - key: SPRING_CONFIG_IMPORT
-    value: optional:configserver:http://config-server:8888
-  - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-    value: http://discovery-server:8761/eureka/
 
-  - key: SPRING_DATASOURCE_URL
-  - sync: false
-  - key: SPRING_DATASOURCE_USERNAME
-  - sync: false
-  - key: SPRING_DATASOURCE_PASSWORD
-  - sync: false
+
 
   - type: web
     name: config-server
     env: docker
-    dockerfilePath: Dockerfile-config
+    dockerfilePath: Dockerfile.config
     region: frankfurt
     plan: free
     envVars:
+      - key: SERVER_PORT
+        value: 8888
       - key: SPRING_PROFILES_ACTIVE
         value: native
-
       - key: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
         value: https://github.com/BatuhanYarimbatman/COMP301-proje-eventplanner
-
       - key: SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH_PATHS
         value: .
 
@@ -40,12 +22,35 @@ services:
   - type: web
     name: discovery-server
     env: docker
-    dockerfilePath: Dockerfile-discovery
+    dockerfilePath: Dockerfile.discovery
     region: frankfurt
     plan: free
     envVars:
+      - key: SERVER_PORT
+        value: 8761
       - key: SPRING_PROFILES_ACTIVE
         value: production
+      - key: SPRING_CONFIG_IMPORT
+        value: optional:configserver:http://config-server:8888
+
+
+  - type: web
+    name: api-gateway
+    env: docker
+    dockerfilePath: Dockerfile.gateway
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: SERVER_PORT
+        value: 8080
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SPRING_CONFIG_IMPORT
+        value: optional:configserver:http://config-server:8888
+      - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+        value: http://discovery-server:8761/eureka/
+
+
 
 
   - type: web
@@ -61,7 +66,7 @@ services:
         value: optional:configserver:http://config-server:8888
       - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
         value: http://discovery-server:8761/eureka/
-
+      # DB Bilgilerini Render'dan elle gireceksiniz (Sync: false)
       - key: SPRING_DATASOURCE_URL
         sync: false
       - key: SPRING_DATASOURCE_USERNAME
@@ -73,7 +78,7 @@ services:
   - type: web
     name: event-catalog-service
     env: docker
-    dockerfilePath: Dockerfile-event
+    dockerfilePath: Dockerfile.event
     region: frankfurt
     plan: free
     envVars:
@@ -89,11 +94,12 @@ services:
         sync: false
       - key: SPRING_DATASOURCE_PASSWORD
         sync: false
+
 
   - type: web
     name: booking-service
     env: docker
-    dockerfilePath: Dockerfile-booking
+    dockerfilePath: Dockerfile.booking
     region: frankfurt
     plan: free
     envVars:
@@ -112,9 +118,9 @@ services:
 
 
   - type: web
-    name: api-gateway
+    name: payment-service
     env: docker
-    dockerfilePath: Dockerfile-gateway
+    dockerfilePath: Dockerfile.payment
     region: frankfurt
     plan: free
     envVars:
@@ -124,6 +130,12 @@ services:
         value: optional:configserver:http://config-server:8888
       - key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
         value: http://discovery-server:8761/eureka/
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
 
 
 
