@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: user-service
+    env: java
+    region: frankfurt
+    plan: free
+    buildCommand: ./mvnw clean package -DskipTests -pl user-service -am
+    startCommand: java -jar user-service/target/*.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
